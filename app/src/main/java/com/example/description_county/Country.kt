@@ -5,7 +5,9 @@ data class Country(
     val capital: List<String>,
     val population: Long,
     val area: Long,
-    val languages: Map<String, String>
+    val languages: Map<String, String>,
+    val flags: Flag
 )
 
 data class Name(val common:String)
+data class Flag(val svg: String)

@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.description_county"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.description_county"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -39,7 +39,10 @@ android {
 }
 
 dependencies {
-   // implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    //coil
+    implementation("io.coil-kt:coil:2.7.0")
+    implementation("io.coil-kt:coil-svg:2.7.0")
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
 

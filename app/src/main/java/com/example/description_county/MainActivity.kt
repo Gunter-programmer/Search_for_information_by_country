@@ -3,6 +3,8 @@ package com.example.description_county
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import coil.load
+import coil.decode.SvgDecoder
 import com.example.description_county.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,9 @@ class MainActivity : AppCompatActivity() {
                 binding.areaTextView.text = formatNumber(country.area)
                 binding.populationTextView.text = formatNumber(country.population)
                 binding.languageTextView.text = formatMapString(country.languages)
+                binding.imageFlag.load(country.flags.svg){
+                    decoderFactory(SvgDecoder.Factory())
+                }
             }
         }
     }
