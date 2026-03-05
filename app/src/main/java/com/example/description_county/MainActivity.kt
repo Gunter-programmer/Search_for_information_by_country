@@ -1,6 +1,7 @@
 package com.example.description_county
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
                 binding.imageFlag.load(country.flags.svg){
                     decoderFactory(SvgDecoder.Factory())
                 }
+                binding.statusLayout.visibility = View.INVISIBLE
+                binding.resultLayout.visibility = View.VISIBLE
             }
         }
     }
