@@ -18,20 +18,28 @@ class MainActivity : AppCompatActivity() {
         binding.seacrhButton.setOnClickListener {
             val countyName = binding.editCountryText.text.toString()
             lifecycleScope.launch {
-                val countrues = countryServer.GetCountryByName(countyName)
-                val country = countrues[0]
+                try {
+                    val countrues = countryServer.GetCountryByName(countyName)
+                    val country = countrues[0]
 
-                binding.countryName.text = country.name.common.toString()
-                binding.capitalTextView.text = formatList(country.capital)
-                binding.areaTextView.text = formatNumber(country.area)
-                binding.populationTextView.text = formatNumber(country.population)
-                binding.languageTextView.text = formatMapString(country.languages)
-                binding.imageFlag.load(country.flags.svg){
-                    decoderFactory(SvgDecoder.Factory())
+                    binding.countryName.text = country.name.common.toString()
+                    binding.capitalTextView.text = formatList(country.capital)
+                    binding.areaTextView.text = formatNumber(country.area)
+                    binding.populationTextView.text = formatNumber(country.population)
+                    binding.languageTextView.text = formatMapString(country.languages)
+                    binding.imageFlag.load(country.flags.svg) {
+                        decoderFactory(SvgDecoder.Factory())
+                    }
+                    binding.statusLayout.visibility = View.INVISIBLE
+                    binding.resultLayout.visibility = View.VISIBLE
+                } catch (e: Exception){
+                    binding.textHindBeforeDisplay.text = "Страна не найдена"
+                    binding.imageView.setImageResource(R.drawable.baseline_error_outline_24)
+                    binding.resultLayout.visibility = View.INVISIBLE
+                    binding.statusLayout.visibility = View.VISIBLE
                 }
-                binding.statusLayout.visibility = View.INVISIBLE
-                binding.resultLayout.visibility = View.VISIBLE
             }
+
         }
     }
 }
