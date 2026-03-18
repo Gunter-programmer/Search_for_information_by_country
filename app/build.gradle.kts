@@ -39,9 +39,19 @@ android {
 }
 
 dependencies {
+    //compoose
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    debugImplementation(libs.androidx.ui.tooling)
+
     //coil
     implementation("io.coil-kt:coil:2.7.0")
     implementation("io.coil-kt:coil-svg:2.7.0")
+
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
