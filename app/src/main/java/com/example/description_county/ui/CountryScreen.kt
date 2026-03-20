@@ -15,20 +15,25 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TestScreen() {
-    var text by remember { mutableStateOf("") }
-    Column {
+//    var text by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf<SearchState>(SearchState.Empty()) }
+    Column() {
         Row {
             EditText(
-                text = text,
+                text = state.query,
                 onTextChange = {
                     newValue ->
-                        text = newValue
+                        state = SearchState.Empty(newValue)
                 },
                 modifier = Modifier.weight(1f)
             )
             Button(onClick = {}) { Text("Поиск")}
         }
-
+        when(state){
+            is SearchState.Empty -> EmptyState()
+            is SearchState.NotFound -> NotFoundState()
+            is SearchState.Found -> FoundState()
+        }
     }
 }
 
@@ -39,6 +44,21 @@ fun EditText(text: String, onTextChange: (String) -> Unit, modifier: Modifier = 
         onValueChange = onTextChange,
         modifier = modifier
     )
+}
+
+@Composable
+fun EmptyState(){
+    Text("Введите страну")
+}
+
+@Composable
+fun NotFoundState(){
+
+}
+
+@Composable
+fun FoundState(){
+
 }
 
 @Preview
