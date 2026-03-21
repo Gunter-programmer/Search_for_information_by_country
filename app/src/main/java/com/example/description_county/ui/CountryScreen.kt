@@ -36,7 +36,9 @@ fun TestScreen() {
                 },
                 modifier = Modifier.weight(1f)
             )
-            Button(onClick = {}) { Text("Поиск")}
+            Button(onClick = {
+                val text = state.query
+            }) { Text("Поиск")}
         }
         when(state){
             is SearchState.Empty -> EmptyState()
