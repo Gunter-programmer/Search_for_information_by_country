@@ -22,23 +22,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
+import com.example.description_county.Country
 
 @Composable
 fun TestScreen() {
-    var state by remember { mutableStateOf<SearchState>(SearchState.Empty()) }
+    var query by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf<SearchState>(SearchState.Empty) }
     Column(modifier = Modifier.fillMaxSize()) {
         Row {
             EditText(
-                text = state.query,
+                text = query,
                 onTextChange = {
                     newValue ->
-                        state = SearchState.Empty(newValue)
+                        query = newValue
                 },
                 modifier = Modifier.weight(1f)
             )
             Button(onClick = {
-                val text = state.query
-            }) { Text("Поиск")}
+                val text = query
+                if(text == "Russia"){
+                    state = SearchState.Empty
+                    print("Found")
+                }
+                else state = SearchState.NotFound
+            })
+            { Text("Поиск")}
         }
         when(state){
             is SearchState.Empty -> EmptyState()
@@ -77,7 +85,20 @@ fun EmptyState(){
 
 @Composable
 fun NotFoundState(){
-
+    Box(modifier = Modifier.fillMaxSize().padding(24.dp),
+        contentAlignment = Alignment.Center)
+    {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.baseline_error_outline_24),
+                contentDescription = null,
+                modifier = Modifier.size(96.dp)
+            )
+            Text("Страна не найдена")
+        }
+    }
 }
 
 @Composable
