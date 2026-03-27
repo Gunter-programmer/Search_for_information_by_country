@@ -10,7 +10,9 @@ import com.example.description_county.countryServer
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class CountryViewModel : ViewModel() {
+class CountryViewModel() : ViewModel() {
+    private val repository = CountryRepository()
+
     var query by mutableStateOf("")
         private set
 
@@ -25,8 +27,7 @@ class CountryViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val text = query
-                val countrues = countryServer.GetCountryByName(text)
-                val country = countrues.firstOrNull()
+                val country = repository.getCountryByName(text)
                 if(country != null) {
                     state = SearchState.Found(country)
                 }
