@@ -32,38 +32,28 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.description_county.formatList
 import com.example.description_county.formatMapString
 import com.example.description_county.formatNumber
 
 @Composable
-fun TestScreen() {
-    var query by remember { mutableStateOf("") }
-    var state by remember { mutableStateOf<SearchState>(SearchState.Empty) }
-    val scope = rememberCoroutineScope()
+fun TestScreen(viewModel: CountryViewModel = viewModel()) {
+    val query = viewModel.query
+    val state = viewModel.state
     Column(modifier = Modifier.fillMaxSize()) {
         Row {
             EditText(
                 text = query,
                 onTextChange = {
                     newValue ->
-                        query = newValue
+                        viewModel.queryChange(newValue)
                 },
                 modifier = Modifier.weight(1f)
             )
 
             Button(onClick = {
-                scope.launch {
-                    try {
-                        val text = query
-                        val countrues = countryServer.GetCountryByName(text)
-                        val country = countrues[0]
-                        state = SearchState.Found(country)
-                    }
-                    catch (e: Exception){
-                        state = SearchState.NotFound
-                    }
-                }
+                viewModel.search()
             })
             { Text("Поиск")}
         }

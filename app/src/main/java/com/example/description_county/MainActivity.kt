@@ -10,42 +10,13 @@ import coil.decode.SvgDecoder
 import com.example.description_county.databinding.ActivityMainBinding
 import com.example.description_county.ui.TestScreen
 import kotlinx.coroutines.launch
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : AppCompatActivity() {
-//    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
             TestScreen()
         }
-
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//        binding.seacrhButton.setOnClickListener {
-//            val countyName = binding.editCountryText.text.toString()
-//            lifecycleScope.launch {
-//                try {
-//                    val countrues = countryServer.GetCountryByName(countyName)
-//                    val country = countrues[0]
-//
-//                    binding.countryName.text = country.name.common.toString()
-//                    binding.capitalTextView.text = formatList(country.capital)
-//                    binding.areaTextView.text = formatNumber(country.area)
-//                    binding.populationTextView.text = formatNumber(country.population)
-//                    binding.languageTextView.text = formatMapString(country.languages)
-//                    binding.imageFlag.load(country.flags.svg) {
-//                        decoderFactory(SvgDecoder.Factory())
-//                    }
-//                    binding.statusLayout.visibility = View.INVISIBLE
-//                    binding.resultLayout.visibility = View.VISIBLE
-//                } catch (e: Exception){
-//                    binding.textHindBeforeDisplay.text = "Страна не найдена"
-//                    binding.imageView.setImageResource(R.drawable.baseline_error_outline_24)
-//                    binding.resultLayout.visibility = View.INVISIBLE
-//                    binding.statusLayout.visibility = View.VISIBLE
-//                }
-//            }
-//
-//        }
     }
 }
