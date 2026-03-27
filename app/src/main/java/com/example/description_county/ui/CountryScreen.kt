@@ -23,11 +23,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import com.example.description_county.Country
+import com.example.description_county.countryServer
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import com.example.description_county.Flag
+import com.example.description_county.Name
 
 @Composable
 fun TestScreen() {
     var query by remember { mutableStateOf("") }
     var state by remember { mutableStateOf<SearchState>(SearchState.Empty) }
+    val scope = rememberCoroutineScope()
     Column(modifier = Modifier.fillMaxSize()) {
         Row {
             EditText(
@@ -38,20 +44,26 @@ fun TestScreen() {
                 },
                 modifier = Modifier.weight(1f)
             )
+
             Button(onClick = {
-                val text = query
-                if(text == "Russia"){
-                    state = SearchState.Empty
-                    print("Found")
+                scope.launch {
+                    try {
+                        val text = query
+                        val countrues = countryServer.GetCountryByName(text)
+                        val country = countrues[0]
+                        state = SearchState.Found(country)
+                    }
+                    catch (e: Exception){
+                        state = SearchState.NotFound
+                    }
                 }
-                else state = SearchState.NotFound
             })
             { Text("Поиск")}
         }
-        when(state){
+        when(val currentState = state){
             is SearchState.Empty -> EmptyState()
             is SearchState.NotFound -> NotFoundState()
-            is SearchState.Found -> FoundState()
+            is SearchState.Found -> FoundState(currentState.country)
         }
     }
 }
@@ -102,12 +114,20 @@ fun NotFoundState(){
 }
 
 @Composable
-fun FoundState(){
+fun FoundState(country: Country){
 
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun Test(){
-    TestScreen()
+fun FoundStatePreview() {
+    val country = Country(
+        name = Name(common = "Russia"),
+        capital = listOf("Moscow"),
+        population = 146000000,
+        area = 17098242,
+        languages = mapOf("rus" to "Russian"),
+        flags = Flag(svg = "")
+    )
+    FoundState(country)
 }
