@@ -28,6 +28,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import com.example.description_county.Flag
 import com.example.description_county.Name
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
+import androidx.compose.ui.platform.LocalContext
+import com.example.description_county.formatList
+import com.example.description_county.formatMapString
+import com.example.description_county.formatNumber
 
 @Composable
 fun TestScreen() {
@@ -60,6 +67,7 @@ fun TestScreen() {
             })
             { Text("Поиск")}
         }
+        Spacer(modifier = Modifier.height(16.dp))
         when(val currentState = state){
             is SearchState.Empty -> EmptyState()
             is SearchState.NotFound -> NotFoundState()
@@ -115,19 +123,29 @@ fun NotFoundState(){
 
 @Composable
 fun FoundState(country: Country){
+    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Row {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(country.flags.svg)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = null,
+                modifier = Modifier.size(160.dp, 120.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(country.name.common)
+                Text("Столица: ${formatList(country.capital)}")
+            }
+        }
 
-}
+        Spacer(modifier = Modifier.height(8.dp))
 
-@Preview(showBackground = true)
-@Composable
-fun FoundStatePreview() {
-    val country = Country(
-        name = Name(common = "Russia"),
-        capital = listOf("Moscow"),
-        population = 146000000,
-        area = 17098242,
-        languages = mapOf("rus" to "Russian"),
-        flags = Flag(svg = "")
-    )
-    FoundState(country)
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Население ${formatNumber(country.population)}")
+            Text("Площадь: ${formatNumber(country.area)}")
+            Text("Языки: ${formatMapString(country.languages)}")
+        }
+    }
 }
